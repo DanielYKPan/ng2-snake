@@ -1,0 +1,25 @@
+@import '../../../styles/utils/variables';
+@import '../../../styles/utils/functions';
+@import '../../../styles/utils/mixins';
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: $base-font-size * 4;
+  color: $white;
+  background-color: #47565a;
+  padding: 0 1rem;
+}
+
+.game-score {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
+
+  .best {
+    @include type-setting(-1);
+  }
+}
