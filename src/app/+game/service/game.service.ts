@@ -4,6 +4,7 @@
 
 import { Injectable } from '@angular/core';
 import { Tile, TileContent } from './tile';
+import { Snake, Direction } from './snake';
 
 const GameStatic: any = {
     columns: 20,
@@ -26,8 +27,10 @@ export class GameService {
     private tileImage: any;
     private initialized: boolean = false;
     private preLoaded: boolean = false;
+    private snake: Snake;
 
     constructor() {
+        this.snake = new Snake();
     }
 
     public buildGridWithWalls(): void {
@@ -83,6 +86,103 @@ export class GameService {
         }
     }
 
+    public drawSnake(): void {
+        let context = this.board.getContext('2d');
+        for (let i = 0; i < this.snake.Segments.length; i++) {
+            let segment = this.snake.Segments[i];
+            let segX = segment.x;
+            let segY = segment.y;
+            let tileX = segX * GameStatic.tileWidth;
+            let tileY = segY * GameStatic.tileHeight;
+
+            // Sprite column and row that gets calculated
+            let tX = 0;
+            let tY = 0;
+
+            if (i === 0) {
+                //TODO: need to check if 'i+1' segment exists
+                // Head; Determine the correct image
+                let next = this.snake.Segments[i + 1]; // segment next to head
+                if (segY < next.y) {
+                    // Up
+                    tX = 3;
+                    tY = 0;
+                } else if (segX > next.x) {
+                    // right
+                    tX = 4;
+                    tY = 0;
+                } else if (segY > next.y) {
+                    // down
+                    tX = 4;
+                    tY = 1;
+                } else if (segX < next.x) {
+                    // left
+                    tX = 3;
+                    tY = 1;
+                }
+            } else if (i === this.snake.Segments.length - 1) {
+                // tail
+                let next = this.snake.Segments[i - 1]; // segment next to tail
+                if (segY > next.y) {
+                    // Up
+                    tX = 3;
+                    tY = 2;
+                } else if (segX < next.x) {
+                    // right
+                    tX = 4;
+                    tY = 2;
+                } else if (segY < next.y) {
+                    // down
+                    tX = 4;
+                    tY = 3;
+                } else if (segX > next.x) {
+                    // left
+                    tX = 3;
+                    tY = 3;
+                }
+            } else {
+                // body
+                let prev = this.snake.Segments[i - 1]; // previous segment
+                let next = this.snake.Segments[i + 1]; // previous segment
+
+                if (prev.x < segX && next.x > segX || prev.x > segX && next.x < segX) {
+                    // horizontal in-line
+                    tX = 1;
+                    tY = 0;
+                } else if (prev.y < segY && next.y > segY || prev.y > segY && next.y < segY) {
+                    // vertical in-line
+                    tX = 2;
+                    tY = 1;
+                } else if (prev.x < segX && next.y > segY || prev.y > segY && next.x < segX) {
+                    // angle left-down
+                    tX = 2;
+                    tY = 0;
+                } else if (prev.x > segX && next.y > segY || prev.y > segY && next.x > segX) {
+                    // angle right-down
+                    tX = 0;
+                    tY = 0;
+                } else if (prev.y < segY && next.x > segX || prev.x > segX &&  next.y < segY) {
+                    // angle right-up
+                    tX = 0;
+                    tY = 1;
+                } else if (prev.y < segY && next.x < segX || prev.x < segX && next.y < segY) {
+                    // angle left-up
+                    tX = 2;
+                    tY = 2;
+                }
+            }
+
+            let tileW = 64;
+            let tileH = 64;
+
+            context.drawImage(
+                this.tileImage,
+                tX * tileW,
+                tY * tileH, tileW, tileH, tileX, tileY,
+                GameStatic.tileWidth, GameStatic.tileHeight);
+        }
+    }
+
     public addApple(): void {
         let valid = false;
         while (!valid) {
@@ -110,6 +210,7 @@ export class GameService {
     }
 
     public newGame(): void {
+        this.snake.init(10, 10, Direction.Right, 10, 4);
         this.buildGridWithWalls();
         this.addApple();
     }
@@ -152,6 +253,7 @@ export class GameService {
             }
         } else {
             this.drawGrid();
+            this.drawSnake();
         }
     }
 }
