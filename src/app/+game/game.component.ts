@@ -2,10 +2,7 @@
  * game.component
  */
 
-import {
-    Component, OnInit, ViewChild, ElementRef
-} from '@angular/core';
-import { GameService } from './service';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-game',
@@ -14,14 +11,9 @@ import { GameService } from './service';
 })
 export class GameComponent implements OnInit {
 
-    @ViewChild('board') private board: ElementRef;
-
-    constructor( private gameService: GameService ) {
+    constructor() {
     }
 
     public ngOnInit() {
-        this.gameService.newGame();
-        let board = this.board.nativeElement;
-        this.gameService.init(board);
     }
 }

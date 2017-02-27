@@ -11,12 +11,14 @@ import { routes } from './game.routes';
 import { GameComponent } from './game.component';
 import { GameHeaderComponent } from './game-header';
 import { tilesReducer, GameService } from './service';
+import { GameCanvasComponent } from './game-canvas';
 
 @NgModule({
     declarations: [
         // Components / Directives/ Pipes
         GameComponent,
         GameHeaderComponent,
+        GameCanvasComponent,
     ],
     imports: [
         CommonModule,
