@@ -85,4 +85,26 @@ export class Snake {
         let nextY = this.y + this.directions[this.direction][1];
         return {x: nextX, y: nextY};
     }
+
+    public move(): void {
+        let nextPosition = this.nextMove();
+        this.x = nextPosition.x;
+        this.y = nextPosition.y;
+
+        // get the last segment of the snake
+        let lastSegment = this.segments[this.segments.length - 1];
+
+        // move every segment to the position of its previous position
+        for (let i = this.segments.length - 1; i >= 1; i--) {
+            this.segments[i].x = this.segments[i - 1].x;
+            this.segments[i].y = this.segments[i - 1].y;
+        }
+
+        // set the first segment
+        this.segments[0].x = this.x;
+        this.segments[0].y = this.y;
+
+        // reset moveDelay
+        this.moveDelay = 0;
+    }
 }

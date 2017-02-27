@@ -323,10 +323,34 @@ export class GameService {
             let nextMove = this.snake.nextMove();
             let nextX = nextMove.x;
             let nextY = nextMove.y;
+
+            if (nextX >= 0 && nextX < GameStatic.columns && nextY >= 0 && nextY < GameStatic.rows) {
+                if (this.tiles[nextX][nextY].Content === TileContent.Wall) {
+                    // collision with wall
+                    this.gameOver = true;
+                }
+
+                // collision with the snake body
+                for (let segment of this.snake.Segments) {
+                    if(nextX === segment.x && nextY === segment.y) {
+                        this.gameOver = true;
+                        break;
+                    }
+                }
+
+                if(!this.gameOver) {
+                    this.snake.move();
+                }
+
+            } else {
+                // out of bounds
+                this.gameOver = true;
+            }
         }
     }
 
     private render() {
+        this.drawGrid();
         this.drawFruit();
         this.drawSnake();
     }
