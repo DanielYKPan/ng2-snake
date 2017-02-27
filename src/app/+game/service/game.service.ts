@@ -260,6 +260,22 @@ export class GameService {
             GameStatic.tileWidth, GameStatic.tileHeight);
     }
 
+    private drawGameOverBoard(): void {
+        let context = this.board.getContext('2d');
+        context.fillStyle = "rgba(0, 0, 0, 0.5)";
+        context.fillRect(0, 0, this.board.width, this.board.height);
+
+        context.fillStyle = "#ffffff";
+        context.font = "24px Verdana";
+        this.drawCenterText("Press any key to start!", 0, this.board.height / 2, this.board.width);
+    }
+
+    private drawCenterText( text: string, x: number, y: number, width: number ): void {
+        let context = this.board.getContext('2d');
+        let textDim = context.measureText(text);
+        context.fillText(text, x + (width - textDim.width) / 2, y);
+    }
+
     private loadImages( imageFiles: string[] ) {
         let loadedImages = [];
         let loadCount = 0;
@@ -372,5 +388,10 @@ export class GameService {
         this.drawGrid();
         this.drawFruit();
         this.drawSnake();
+
+        // Game over
+        if (this.gameOver) {
+            this.drawGameOverBoard();
+        }
     }
 }
