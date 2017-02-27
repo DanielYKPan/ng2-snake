@@ -5,7 +5,7 @@
 import { Injectable } from '@angular/core';
 import { Tile, TileContent } from './tile';
 import { Snake, Direction } from './snake';
-import { Fruit } from './fruit';
+import { Fruit, FruitType } from './fruit';
 
 const GameStatic: any = {
     columns: 20,
@@ -69,23 +69,28 @@ export class GameService {
                     // Wall
                     context.fillStyle = '#bcae76';
                     context.fillRect(tileX, tileY, GameStatic.tileWidth, GameStatic.tileHeight);
-                } else if (tile.Content === TileContent.Apple) {
-                    // Draw apple background
-                    context.fillStyle = '#f7e697';
-                    context.fillRect(tileX, tileY, GameStatic.tileWidth, GameStatic.tileHeight);
-
-                    let tX = 0;
-                    let tY = 3;
-                    let tileW = 64;
-                    let tileH = 64;
-                    context.drawImage(
-                        this.tileImage,
-                        tX * tileW,
-                        tY * tileH, tileW, tileH, tileX, tileY,
-                        GameStatic.tileWidth, GameStatic.tileHeight);
                 }
             }
         }
+    }
+
+    public drawFruit(): void {
+        let context = this.board.getContext('2d');
+        let tileX = this.fruit.X * GameStatic.tileWidth;
+        let tileY = this.fruit.Y * GameStatic.tileHeight;
+
+        context.fillStyle = '#f7e697';
+        context.fillRect(tileX, tileY, GameStatic.tileWidth, GameStatic.tileHeight);
+
+        let tX = 0;
+        let tY = 3;
+        let tileW = 64;
+        let tileH = 64;
+        context.drawImage(
+            this.tileImage,
+            tX * tileW,
+            tY * tileH, tileW, tileH, tileX, tileY,
+            GameStatic.tileWidth, GameStatic.tileHeight);
     }
 
     public drawSnake(): void {
@@ -163,7 +168,7 @@ export class GameService {
                     // angle right-down
                     tX = 0;
                     tY = 0;
-                } else if (prev.y < segY && next.x > segX || prev.x > segX &&  next.y < segY) {
+                } else if (prev.y < segY && next.x > segX || prev.x > segX && next.y < segY) {
                     // angle right-up
                     tX = 0;
                     tY = 1;
@@ -185,7 +190,7 @@ export class GameService {
         }
     }
 
-    public addApple(): void {
+    public addFruit(): void {
         let valid = false;
         while (!valid) {
             // Get a random position
@@ -194,10 +199,23 @@ export class GameService {
 
             let overlap = false;
 
+            for (let i = 0; i < this.snake.Segments.length; i++) {
+                // Get the position of the current snake segment
+                let sx = this.snake.Segments[i].x;
+                let sy = this.snake.Segments[i].y;
+
+                // Check overlap
+                if (aX == sx && aY == sy) {
+                    overlap = true;
+                    break;
+                }
+            }
+
             // Tile must be empty
             if (!overlap && this.tiles[aX][aY].Content === TileContent.Empty) {
                 // Add an apple at the tile position
-                this.tiles[aX][aY].Content = TileContent.Apple;
+                //this.tiles[aX][aY].Content = TileContent.Apple;
+                this.fruit.setPosition(aX, aY);
                 valid = true;
             }
         }
@@ -216,7 +234,9 @@ export class GameService {
     public newGame(): void {
         this.snake.init(10, 10, Direction.Right, 10, 4);
         this.buildGridWithWalls();
-        this.addApple();
+        this.drawGrid();
+        this.fruit.Type = FruitType.Apple;
+        this.addFruit();
     }
 
     private loadImages( imageFiles: string[] ) {
@@ -256,8 +276,8 @@ export class GameService {
                 this.initialized = true;
             }
         } else {
-            this.drawGrid();
             this.drawSnake();
+            this.drawFruit();
         }
     }
 }

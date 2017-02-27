@@ -7,7 +7,6 @@ import { uuid } from './uuid';
 export enum TileContent {
     Empty,
     Wall,
-    Apple
 }
 
 export class Tile {
