@@ -79,4 +79,10 @@ export class Snake {
         let maxMoveDelay = 1 / this.speed;
         return this.moveDelay > maxMoveDelay;
     }
+
+    public nextMove(): {x: number, y: number} {
+        let nextX = this.x + this.directions[this.direction][0];
+        let nextY = this.y + this.directions[this.direction][1];
+        return {x: nextX, y: nextY};
+    }
 }

@@ -30,6 +30,7 @@ export class GameService {
     private preLoaded: boolean = false;
     private snake: Snake;
     private fruit: Fruit;
+    private gameOver: boolean = false;
 
     // Timing and frames per second
     private lastFrame = 0;
@@ -52,6 +53,7 @@ export class GameService {
     }
 
     public newGame(): void {
+        this.gameOver = false;
         this.snake.init(10, 10, Direction.Right, 10, 4);
         this.buildGridWithWalls();
         this.drawGrid();
@@ -282,8 +284,8 @@ export class GameService {
                 this.initialized = true;
             }
         } else {
-            this.drawSnake();
-            this.drawFruit();
+            this.update(tframe);
+            this.render();
         }
     }
 
@@ -295,6 +297,10 @@ export class GameService {
 
         // Update the fps counter
         this.updateFps(dt);
+
+        if (!this.gameOver) {
+            this.updateGame(dt);
+        }
     }
 
     private updateFps( dt: number ): void {
@@ -310,5 +316,18 @@ export class GameService {
         // Increase time and framecount
         this.fpsTime += dt;
         this.frameCount++;
+    }
+
+    private updateGame( dt: number ): void {
+        if (this.snake.tryMove(dt)) {
+            let nextMove = this.snake.nextMove();
+            let nextX = nextMove.x;
+            let nextY = nextMove.y;
+        }
+    }
+
+    private render() {
+        this.drawFruit();
+        this.drawSnake();
     }
 }
