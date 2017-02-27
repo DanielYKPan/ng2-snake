@@ -2,7 +2,9 @@
  * game.component
  */
 
-import { Component, OnInit, AfterContentInit, ViewChild, ElementRef } from '@angular/core';
+import {
+    Component, OnInit, ViewChild, ElementRef
+} from '@angular/core';
 import { GameService } from './service';
 
 @Component({
@@ -10,7 +12,7 @@ import { GameService } from './service';
     templateUrl: 'game.component.html',
     styleUrls: ['./game.component.scss'],
 })
-export class GameComponent implements OnInit, AfterContentInit {
+export class GameComponent implements OnInit {
 
     @ViewChild('board') private board: ElementRef;
 
@@ -18,11 +20,8 @@ export class GameComponent implements OnInit, AfterContentInit {
     }
 
     public ngOnInit() {
-        this.gameService.buildGridWithWalls();
-    }
-
-    public ngAfterContentInit(): void {
+        this.gameService.newGame();
         let board = this.board.nativeElement;
-        this.gameService.drawGrid(board);
+        this.gameService.init(board);
     }
 }

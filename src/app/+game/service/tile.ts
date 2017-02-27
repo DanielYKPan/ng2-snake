@@ -6,7 +6,8 @@ import { uuid } from './uuid';
 
 export enum TileContent {
     Empty,
-    Wall
+    Wall,
+    Apple
 }
 
 export class Tile {
@@ -24,7 +25,11 @@ export class Tile {
         return this.content;
     }
 
-    constructor(content: TileContent) {
+    set Content( content: TileContent ) {
+        this.content = content;
+    }
+
+    constructor( content: TileContent ) {
         this.id = uuid();
         this.content = content;
     }
