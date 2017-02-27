@@ -1,17 +1,16 @@
 /**
  * snake
  */
-
-export enum Direction {
-    Up,
-    Right,
-    Down,
-    Left
-}
+import { Direction } from './keyboard.service';
 
 export class Snake {
 
-    private directions = [[0, -1], [1, 0], [0, 1], [-1, 0]];
+    private directions = {
+        'Left': [-1, 0],
+        'Up': [0, -1],
+        'Right': [1, 0],
+        'Down': [0, 1]
+    };
 
     /* Property x */
     private x: number;
@@ -32,6 +31,10 @@ export class Snake {
 
     get Direction(): Direction {
         return this.direction;
+    }
+
+    set Direction( direction: Direction ) {
+        this.direction = direction;
     }
 
     /* Property speed */
@@ -68,8 +71,8 @@ export class Snake {
 
         for (let i = 0; i < numSegments; i++) {
             this.segments.push({
-                x: this.x - i * this.directions[direction][0],
-                y: this.y - i * this.directions[direction][1]
+                x: this.x - i * this.directions[Direction[direction]][0],
+                y: this.y - i * this.directions[Direction[direction]][1]
             });
         }
     }
@@ -81,8 +84,8 @@ export class Snake {
     }
 
     public nextMove(): {x: number, y: number} {
-        let nextX = this.x + this.directions[this.direction][0];
-        let nextY = this.y + this.directions[this.direction][1];
+        let nextX = this.x + this.directions[Direction[this.direction]][0];
+        let nextY = this.y + this.directions[Direction[this.direction]][1];
         return {x: nextX, y: nextY};
     }
 

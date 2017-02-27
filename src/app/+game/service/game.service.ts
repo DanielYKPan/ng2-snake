@@ -4,8 +4,9 @@
 
 import { Injectable } from '@angular/core';
 import { Tile, TileContent } from './tile';
-import { Snake, Direction } from './snake';
+import { Snake } from './snake';
 import { Fruit, FruitType } from './fruit';
+import { Direction } from './keyboard.service';
 
 const GameStatic: any = {
     columns: 20,
@@ -332,13 +333,13 @@ export class GameService {
 
                 // collision with the snake body
                 for (let segment of this.snake.Segments) {
-                    if(nextX === segment.x && nextY === segment.y) {
+                    if (nextX === segment.x && nextY === segment.y) {
                         this.gameOver = true;
                         break;
                     }
                 }
 
-                if(!this.gameOver) {
+                if (!this.gameOver) {
                     this.snake.move();
                 }
 
@@ -353,5 +354,18 @@ export class GameService {
         this.drawGrid();
         this.drawFruit();
         this.drawSnake();
+    }
+
+    public arrowDown( direction: Direction ): void {
+        //console.log(Direction.Up);
+        if (direction === Direction.Right && this.snake.Direction != Direction.Left) {
+            this.snake.Direction = Direction.Right;
+        } else if (direction === Direction.Down && this.snake.Direction != Direction.Up) {
+            this.snake.Direction = Direction.Down;
+        } else if (direction === Direction.Left && this.snake.Direction != Direction.Right) {
+            this.snake.Direction = Direction.Left;
+        } else if (direction === Direction.Up && this.snake.Direction != Direction.Down) {
+            this.snake.Direction = Direction.Up;
+        }
     }
 }

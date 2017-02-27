@@ -10,7 +10,7 @@ import { StoreModule } from '@ngrx/store';
 import { routes } from './game.routes';
 import { GameComponent } from './game.component';
 import { GameHeaderComponent } from './game-header';
-import { tilesReducer, GameService } from './service';
+import { tilesReducer, GameService, KeyboardService } from './service';
 import { GameCanvasComponent } from './game-canvas';
 
 @NgModule({
@@ -29,7 +29,8 @@ import { GameCanvasComponent } from './game-canvas';
         }),
     ],
     providers: [
-        GameService
+        GameService,
+        KeyboardService,
     ]
 })
 export class GameModule {
