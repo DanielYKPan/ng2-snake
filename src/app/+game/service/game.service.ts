@@ -41,7 +41,25 @@ export class GameService {
 
     }
 
-    public buildGridWithWalls(): void {
+    public init( board: HTMLElement ): void {
+        this.images = this.loadImages(['snake-graphics.png']);
+        this.tileImage = this.images[0];
+        this.board = board;
+        this.snake = new Snake();
+        this.fruit = new Fruit();
+
+        this.main(0);
+    }
+
+    public newGame(): void {
+        this.snake.init(10, 10, Direction.Right, 10, 4);
+        this.buildGridWithWalls();
+        this.drawGrid();
+        this.fruit.Type = FruitType.Apple;
+        this.addFruit();
+    }
+
+    private buildGridWithWalls(): void {
         for (let i = 0; i < GameStatic.columns; i++) {
             this.tiles[i] = [];
             for (let j = 0; j < GameStatic.rows; j++) {
@@ -55,7 +73,38 @@ export class GameService {
         }
     }
 
-    public drawGrid(): void {
+    private addFruit(): void {
+        let valid = false;
+        while (!valid) {
+            // Get a random position
+            let aX = randRange(0, GameStatic.columns - 1);
+            let aY = randRange(0, GameStatic.rows - 1);
+
+            let overlap = false;
+
+            for (let segment of this.snake.Segments) {
+                // Get the position of the current snake segment
+                let sx = segment.x;
+                let sy = segment.y;
+
+                // Check overlap
+                if (aX === sx && aY === sy) {
+                    overlap = true;
+                    break;
+                }
+            }
+
+            // Tile must be empty
+            if (!overlap && this.tiles[aX][aY].Content === TileContent.Empty) {
+                // Add an apple at the tile position
+                // this.tiles[aX][aY].Content = TileContent.Apple;
+                this.fruit.setPosition(aX, aY);
+                valid = true;
+            }
+        }
+    }
+
+    private drawGrid(): void {
         let context = this.board.getContext('2d');
         context.fillStyle = '#577ddb';
         context.fillRect(0, 0, this.board.width, this.board.height);
@@ -80,26 +129,7 @@ export class GameService {
         }
     }
 
-    public drawFruit(): void {
-        let context = this.board.getContext('2d');
-        let tileX = this.fruit.X * GameStatic.tileWidth;
-        let tileY = this.fruit.Y * GameStatic.tileHeight;
-
-        context.fillStyle = '#f7e697';
-        context.fillRect(tileX, tileY, GameStatic.tileWidth, GameStatic.tileHeight);
-
-        let tX = 0;
-        let tY = 3;
-        let tileW = 64;
-        let tileH = 64;
-        context.drawImage(
-            this.tileImage,
-            tX * tileW,
-            tY * tileH, tileW, tileH, tileX, tileY,
-            GameStatic.tileWidth, GameStatic.tileHeight);
-    }
-
-    public drawSnake(): void {
+    private drawSnake(): void {
         let context = this.board.getContext('2d');
         for (let i = 0; i < this.snake.Segments.length; i++) {
             let segment = this.snake.Segments[i];
@@ -113,7 +143,7 @@ export class GameService {
             let tY = 0;
 
             if (i === 0) {
-                //TODO: need to check if 'i+1' segment exists
+                // TODO: need to check if 'i+1' segment exists
                 // Head; Determine the correct image
                 let next = this.snake.Segments[i + 1]; // segment next to head
                 if (segY < next.y) {
@@ -196,53 +226,23 @@ export class GameService {
         }
     }
 
-    public addFruit(): void {
-        let valid = false;
-        while (!valid) {
-            // Get a random position
-            let aX = randRange(0, GameStatic.columns - 1);
-            let aY = randRange(0, GameStatic.rows - 1);
+    private drawFruit(): void {
+        let context = this.board.getContext('2d');
+        let tileX = this.fruit.X * GameStatic.tileWidth;
+        let tileY = this.fruit.Y * GameStatic.tileHeight;
 
-            let overlap = false;
+        context.fillStyle = '#f7e697';
+        context.fillRect(tileX, tileY, GameStatic.tileWidth, GameStatic.tileHeight);
 
-            for (let i = 0; i < this.snake.Segments.length; i++) {
-                // Get the position of the current snake segment
-                let sx = this.snake.Segments[i].x;
-                let sy = this.snake.Segments[i].y;
-
-                // Check overlap
-                if (aX == sx && aY == sy) {
-                    overlap = true;
-                    break;
-                }
-            }
-
-            // Tile must be empty
-            if (!overlap && this.tiles[aX][aY].Content === TileContent.Empty) {
-                // Add an apple at the tile position
-                //this.tiles[aX][aY].Content = TileContent.Apple;
-                this.fruit.setPosition(aX, aY);
-                valid = true;
-            }
-        }
-    }
-
-    public init( board: HTMLElement ): void {
-        this.images = this.loadImages(['snake-graphics.png']);
-        this.tileImage = this.images[0];
-        this.board = board;
-        this.snake = new Snake();
-        this.fruit = new Fruit();
-
-        this.main(0);
-    }
-
-    public newGame(): void {
-        this.snake.init(10, 10, Direction.Right, 10, 4);
-        this.buildGridWithWalls();
-        this.drawGrid();
-        this.fruit.Type = FruitType.Apple;
-        this.addFruit();
+        let tX = 0;
+        let tY = 3;
+        let tileW = 64;
+        let tileH = 64;
+        context.drawImage(
+            this.tileImage,
+            tX * tileW,
+            tY * tileH, tileW, tileH, tileX, tileY,
+            GameStatic.tileWidth, GameStatic.tileHeight);
     }
 
     private loadImages( imageFiles: string[] ) {
@@ -289,7 +289,7 @@ export class GameService {
 
     // Update the game state
     // http://rembound.com/articles/how-to-make-a-html5-canvas-game
-    private update(tframe: number): void {
+    private update( tframe: number ): void {
         let dt = (tframe - this.lastFrame) / 1000;
         this.lastFrame = tframe;
 
@@ -297,7 +297,7 @@ export class GameService {
         this.updateFps(dt);
     }
 
-    private updateFps(dt: number): void {
+    private updateFps( dt: number ): void {
         if (this.fpsTime > 0.25) {
             // Calculate fps
             this.fps = Math.round(this.frameCount / this.fpsTime);

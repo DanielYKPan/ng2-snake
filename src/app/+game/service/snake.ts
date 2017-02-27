@@ -42,9 +42,9 @@ export class Snake {
     }
 
     /* Property segments */
-    private segments: {x: number, y: number}[];
+    private segments: Array<{x: number, y: number}>;
 
-    get Segments(): {x: number, y: number}[] {
+    get Segments(): Array<{x: number, y: number}> {
         return this.segments;
     }
 
@@ -72,5 +72,11 @@ export class Snake {
                 y: this.y - i * this.directions[direction][1]
             });
         }
+    }
+
+    public tryMove( dt: number ): boolean {
+        this.moveDelay += dt;
+        let maxMoveDelay = 1 / this.speed;
+        return this.moveDelay > maxMoveDelay;
     }
 }
