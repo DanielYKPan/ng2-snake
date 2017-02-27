@@ -62,6 +62,18 @@ export class GameService {
         this.addFruit();
     }
 
+    public arrowDown( direction: Direction ): void {
+        if (direction === Direction.Right && this.snake.Direction !== Direction.Left) {
+            this.snake.Direction = Direction.Right;
+        } else if (direction === Direction.Down && this.snake.Direction !== Direction.Up) {
+            this.snake.Direction = Direction.Down;
+        } else if (direction === Direction.Left && this.snake.Direction !== Direction.Right) {
+            this.snake.Direction = Direction.Left;
+        } else if (direction === Direction.Up && this.snake.Direction !== Direction.Down) {
+            this.snake.Direction = Direction.Up;
+        }
+    }
+
     private buildGridWithWalls(): void {
         for (let i = 0; i < GameStatic.columns; i++) {
             this.tiles[i] = [];
@@ -341,6 +353,12 @@ export class GameService {
 
                 if (!this.gameOver) {
                     this.snake.move();
+
+                    // check collision with the fruit
+                    if (nextX === this.fruit.X && nextY === this.fruit.Y) {
+                        this.snake.grow();
+                        this.addFruit();
+                    }
                 }
 
             } else {
@@ -354,18 +372,5 @@ export class GameService {
         this.drawGrid();
         this.drawFruit();
         this.drawSnake();
-    }
-
-    public arrowDown( direction: Direction ): void {
-        //console.log(Direction.Up);
-        if (direction === Direction.Right && this.snake.Direction != Direction.Left) {
-            this.snake.Direction = Direction.Right;
-        } else if (direction === Direction.Down && this.snake.Direction != Direction.Up) {
-            this.snake.Direction = Direction.Down;
-        } else if (direction === Direction.Left && this.snake.Direction != Direction.Right) {
-            this.snake.Direction = Direction.Left;
-        } else if (direction === Direction.Up && this.snake.Direction != Direction.Down) {
-            this.snake.Direction = Direction.Up;
-        }
     }
 }

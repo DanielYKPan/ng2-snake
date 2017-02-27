@@ -6,10 +6,10 @@ import { Direction } from './keyboard.service';
 export class Snake {
 
     private directions = {
-        'Left': [-1, 0],
-        'Up': [0, -1],
-        'Right': [1, 0],
-        'Down': [0, 1]
+        Left: [-1, 0],
+        Up: [0, -1],
+        Right: [1, 0],
+        Down: [0, 1]
     };
 
     /* Property x */
@@ -97,6 +97,12 @@ export class Snake {
         // get the last segment of the snake
         let lastSegment = this.segments[this.segments.length - 1];
 
+        // Grow a segment if needed
+        if (this.growSegments > 0) {
+            this.segments.push({x: lastSegment.x, y: lastSegment.y});
+            this.growSegments--;
+        }
+
         // move every segment to the position of its previous position
         for (let i = this.segments.length - 1; i >= 1; i--) {
             this.segments[i].x = this.segments[i - 1].x;
@@ -109,5 +115,9 @@ export class Snake {
 
         // reset moveDelay
         this.moveDelay = 0;
+    }
+
+    public grow(): void {
+        this.growSegments++;
     }
 }
