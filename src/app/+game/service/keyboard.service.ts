@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 
-export enum Direction {
+export enum KeyCode {
     Left = 37,
     Up = 38,
     Right = 39,
@@ -20,9 +20,9 @@ export class KeyboardService {
 
     public keyboardStream = new Subject<number>();
 
-    public arrows: Observable<Direction> =
+    public arrows: Observable<KeyCode> =
         this.keyboardStream
-            .filter(( keyCode: number ) => Direction[keyCode] != null)
+            .filter(( keyCode: number ) => KeyCode[keyCode] != null)
             .map(( keyCode: number ) => keyCode);
 
     constructor() {

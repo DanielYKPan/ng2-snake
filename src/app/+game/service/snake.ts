@@ -1,7 +1,7 @@
 /**
  * snake
  */
-import { Direction } from './keyboard.service';
+import { KeyCode } from './keyboard.service';
 
 export class Snake {
 
@@ -27,13 +27,13 @@ export class Snake {
     }
 
     /* Property direction */
-    private direction: Direction;
+    private direction: KeyCode;
 
-    get Direction(): Direction {
+    get Direction(): KeyCode {
         return this.direction;
     }
 
-    set Direction( direction: Direction ) {
+    set Direction( direction: KeyCode ) {
         this.direction = direction;
     }
 
@@ -62,7 +62,7 @@ export class Snake {
     }
 
     public init( x: number, y: number,
-                 direction: Direction, speed: number,
+                 direction: KeyCode, speed: number,
                  numSegments: number ): void {
         this.x = x;
         this.y = y;
@@ -71,8 +71,8 @@ export class Snake {
 
         for (let i = 0; i < numSegments; i++) {
             this.segments.push({
-                x: this.x - i * this.directions[Direction[direction]][0],
-                y: this.y - i * this.directions[Direction[direction]][1]
+                x: this.x - i * this.directions[KeyCode[direction]][0],
+                y: this.y - i * this.directions[KeyCode[direction]][1]
             });
         }
     }
@@ -84,8 +84,8 @@ export class Snake {
     }
 
     public nextMove(): {x: number, y: number} {
-        let nextX = this.x + this.directions[Direction[this.direction]][0];
-        let nextY = this.y + this.directions[Direction[this.direction]][1];
+        let nextX = this.x + this.directions[KeyCode[this.direction]][0];
+        let nextY = this.y + this.directions[KeyCode[this.direction]][1];
         return {x: nextX, y: nextY};
     }
 

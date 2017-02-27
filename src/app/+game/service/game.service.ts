@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 import { Tile, TileContent } from './tile';
 import { Snake } from './snake';
 import { Fruit, FruitType } from './fruit';
-import { Direction } from './keyboard.service';
+import { KeyCode } from './keyboard.service';
 
 const GameStatic: any = {
     columns: 20,
@@ -55,22 +55,22 @@ export class GameService {
 
     public newGame(): void {
         this.gameOver = false;
-        this.snake.init(10, 10, Direction.Right, 10, 4);
+        this.snake.init(10, 10, KeyCode.Right, 10, 4);
         this.buildGridWithWalls();
         this.drawGrid();
         this.fruit.Type = FruitType.Apple;
         this.addFruit();
     }
 
-    public arrowDown( direction: Direction ): void {
-        if (direction === Direction.Right && this.snake.Direction !== Direction.Left) {
-            this.snake.Direction = Direction.Right;
-        } else if (direction === Direction.Down && this.snake.Direction !== Direction.Up) {
-            this.snake.Direction = Direction.Down;
-        } else if (direction === Direction.Left && this.snake.Direction !== Direction.Right) {
-            this.snake.Direction = Direction.Left;
-        } else if (direction === Direction.Up && this.snake.Direction !== Direction.Down) {
-            this.snake.Direction = Direction.Up;
+    public arrowDown( direction: KeyCode ): void {
+        if (direction === KeyCode.Right && this.snake.Direction !== KeyCode.Left) {
+            this.snake.Direction = KeyCode.Right;
+        } else if (direction === KeyCode.Down && this.snake.Direction !== KeyCode.Up) {
+            this.snake.Direction = KeyCode.Down;
+        } else if (direction === KeyCode.Left && this.snake.Direction !== KeyCode.Right) {
+            this.snake.Direction = KeyCode.Left;
+        } else if (direction === KeyCode.Up && this.snake.Direction !== KeyCode.Down) {
+            this.snake.Direction = KeyCode.Up;
         }
     }
 

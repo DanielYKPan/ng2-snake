@@ -3,7 +3,7 @@
  */
 
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
-import { GameService, KeyboardService, Direction } from '../service';
+import { GameService, KeyboardService, KeyCode } from '../service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -30,7 +30,7 @@ export class GameCanvasComponent implements OnInit, OnDestroy {
         this.gameService.newGame();
 
         this.arrowsSub = this.keyboardService.arrows.subscribe(
-            ( data: Direction ) => this.gameService.arrowDown(data)
+            ( data: KeyCode ) => this.gameService.arrowDown(data)
         );
     }
 
