@@ -31,6 +31,12 @@ export class GameService {
     private snake: Snake;
     private fruit: Fruit;
 
+    // Timing and frames per second
+    private lastFrame = 0;
+    private fpsTime = 0;
+    private frameCount = 0;
+    private fps = 0;
+
     constructor() {
 
     }
@@ -279,5 +285,30 @@ export class GameService {
             this.drawSnake();
             this.drawFruit();
         }
+    }
+
+    // Update the game state
+    // http://rembound.com/articles/how-to-make-a-html5-canvas-game
+    private update(tframe: number): void {
+        let dt = (tframe - this.lastFrame) / 1000;
+        this.lastFrame = tframe;
+
+        // Update the fps counter
+        this.updateFps(dt);
+    }
+
+    private updateFps(dt: number): void {
+        if (this.fpsTime > 0.25) {
+            // Calculate fps
+            this.fps = Math.round(this.frameCount / this.fpsTime);
+
+            // Reset time and framecount
+            this.fpsTime = 0;
+            this.frameCount = 0;
+        }
+
+        // Increase time and framecount
+        this.fpsTime += dt;
+        this.frameCount++;
     }
 }
