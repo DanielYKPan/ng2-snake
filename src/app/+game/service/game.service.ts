@@ -5,6 +5,7 @@
 import { Injectable } from '@angular/core';
 import { Tile, TileContent } from './tile';
 import { Snake, Direction } from './snake';
+import { Fruit } from './fruit';
 
 const GameStatic: any = {
     columns: 20,
@@ -28,9 +29,10 @@ export class GameService {
     private initialized: boolean = false;
     private preLoaded: boolean = false;
     private snake: Snake;
+    private fruit: Fruit;
 
     constructor() {
-        this.snake = new Snake();
+
     }
 
     public buildGridWithWalls(): void {
@@ -205,6 +207,8 @@ export class GameService {
         this.images = this.loadImages(['snake-graphics.png']);
         this.tileImage = this.images[0];
         this.board = board;
+        this.snake = new Snake();
+        this.fruit = new Fruit();
 
         this.main(0);
     }

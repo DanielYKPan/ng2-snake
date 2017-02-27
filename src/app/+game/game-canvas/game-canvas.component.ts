@@ -20,9 +20,9 @@ export class GameCanvasComponent implements OnInit {
     }
 
     public ngOnInit() {
-        this.gameService.newGame();
         let board = this.board.nativeElement;
         this.gameService.init(board);
+        this.gameService.newGame();
     }
 
 }
