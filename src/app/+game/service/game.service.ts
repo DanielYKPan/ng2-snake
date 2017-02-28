@@ -32,6 +32,8 @@ export class GameService {
     private board: any;
     private images: any;
     private tileImage: any;
+    private grassImage: any;
+    private wallImage: any;
     private initialized: boolean = false;
     private preLoaded: boolean = false;
     private snake: Snake;
@@ -52,8 +54,10 @@ export class GameService {
     }
 
     public init( board: HTMLElement ): void {
-        this.images = this.loadImages(['snake-graphics.png']);
+        this.images = this.loadImages(['snake-graphics.png', 'grass.png', 'wall.png']);
         this.tileImage = this.images[0];
+        this.grassImage = this.images[1];
+        this.wallImage = this.images[2];
         this.board = board;
         this.snake = new Snake();
         this.fruit = new Fruit();
@@ -152,12 +156,14 @@ export class GameService {
                 // Draw tiles based on their type
                 if (tile.Content === TileContent.Empty) {
                     // Empty space
-                    context.fillStyle = '#f7e697';
-                    context.fillRect(tileX, tileY, GameStatic.tileWidth, GameStatic.tileHeight);
+                    context.drawImage(
+                        this.grassImage, 0, 0, 32, 32, tileX, tileY,
+                        GameStatic.tileWidth, GameStatic.tileHeight);
                 } else if (tile.Content === TileContent.Wall) {
                     // Wall
-                    context.fillStyle = '#bcae76';
-                    context.fillRect(tileX, tileY, GameStatic.tileWidth, GameStatic.tileHeight);
+                    context.drawImage(
+                        this.wallImage, 0, 0, 32, 32, tileX, tileY,
+                        GameStatic.tileWidth, GameStatic.tileHeight);
                 }
             }
         }
@@ -265,8 +271,8 @@ export class GameService {
         let tileX = this.fruit.X * GameStatic.tileWidth;
         let tileY = this.fruit.Y * GameStatic.tileHeight;
 
-        context.fillStyle = '#f7e697';
-        context.fillRect(tileX, tileY, GameStatic.tileWidth, GameStatic.tileHeight);
+        //context.fillStyle = '#f7e697';
+        // context.fillRect(tileX, tileY, GameStatic.tileWidth, GameStatic.tileHeight);
 
         // Sprite column and row that gets calculated
         let tX = 0;
