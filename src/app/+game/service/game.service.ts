@@ -3,10 +3,13 @@
  */
 
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Tile, TileContent } from './tile';
 import { Snake } from './snake';
 import { Fruit, FruitType } from './fruit';
 import { KeyCode } from './keyboard.service';
+import { IGameState } from './game-state.reducer';
+import { SET_GAME_STATE, INCREASE_SCORES } from './actions';
 
 const GameStatic: any = {
     columns: 20,
@@ -23,6 +26,8 @@ const randRange = ( low: number, high: number ): number => {
 @Injectable()
 export class GameService {
 
+    public gameState: IGameState;
+
     private tiles: Tile[][] = [];
     private board: any;
     private images: any;
@@ -31,7 +36,6 @@ export class GameService {
     private preLoaded: boolean = false;
     private snake: Snake;
     private fruit: Fruit;
-    private gameOver: boolean = false;
 
     // Timing and frames per second
     private lastFrame = 0;
@@ -41,8 +45,10 @@ export class GameService {
     private gameOverTime: number = 1; // How long we have been game over
     private gameOverDelay: number = 0.5;
 
-    constructor() {
-
+    constructor( private store: Store<any> ) {
+        this.store.select('gameState').subscribe(
+            ( data: IGameState ) => this.gameState = data
+        );
     }
 
     public init( board: HTMLElement ): void {
@@ -57,7 +63,12 @@ export class GameService {
     }
 
     public newGame(): void {
-        this.gameOver = false;
+        this.store.dispatch({
+            type: SET_GAME_STATE, payload: {
+                gameOver: false,
+                scores: 0
+            }
+        });
         this.snake.init(10, 10, KeyCode.Right, 10, 4);
         this.drawGrid();
         this.fruit.Type = FruitType.Apple;
@@ -73,7 +84,7 @@ export class GameService {
             this.snake.Direction = KeyCode.Left;
         } else if (key === KeyCode.Up && this.snake.Direction !== KeyCode.Down) {
             this.snake.Direction = KeyCode.Up;
-        } else if (key === KeyCode.Spacebar && this.gameOver) {
+        } else if (key === KeyCode.Spacebar && this.gameState.gameOver) {
             this.tryNewGame();
         }
     }
@@ -354,7 +365,7 @@ export class GameService {
         // Update the fps counter
         this.updateFps(dt);
 
-        if (!this.gameOver) {
+        if (!this.gameState.gameOver) {
             this.updateGame(dt);
         } else {
             this.gameOverTime += dt;
@@ -385,33 +396,50 @@ export class GameService {
             if (nextX >= 0 && nextX < GameStatic.columns && nextY >= 0 && nextY < GameStatic.rows) {
                 if (this.tiles[nextX][nextY].Content === TileContent.Wall) {
                     // collision with wall
-                    this.gameOver = true;
+                    this.store.dispatch({
+                        type: SET_GAME_STATE, payload: {
+                            gameOver: true
+                        }
+                    });
                 }
 
                 // collision with the snake body
                 for (let segment of this.snake.Segments) {
                     if (nextX === segment.x && nextY === segment.y) {
-                        this.gameOver = true;
+                        this.store.dispatch({
+                            type: SET_GAME_STATE, payload: {
+                                gameOver: true
+                            }
+                        });
                         break;
                     }
                 }
 
-                if (!this.gameOver) {
+                if (!this.gameState.gameOver) {
                     this.snake.move();
 
                     // check collision with the fruit
                     if (nextX === this.fruit.X && nextY === this.fruit.Y) {
                         this.snake.grow();
+                        this.store.dispatch({
+                            type: INCREASE_SCORES, payload: {
+                                scores: this.fruit.Type
+                            }
+                        });
                         this.addFruit();
                     }
                 }
 
             } else {
                 // out of bounds
-                this.gameOver = true;
+                this.store.dispatch({
+                    type: SET_GAME_STATE, payload: {
+                        gameOver: true
+                    }
+                });
             }
 
-            if (this.gameOver) {
+            if (this.gameState.gameOver) {
                 this.gameOverTime = 0;
             }
         }
@@ -423,7 +451,7 @@ export class GameService {
         this.drawSnake();
 
         // Game over
-        if (this.gameOver) {
+        if (this.gameState.gameOver) {
             this.drawGameOverBoard();
         }
     }
@@ -431,7 +459,6 @@ export class GameService {
     private tryNewGame(): void {
         if (this.gameOverTime > this.gameOverDelay) {
             this.newGame();
-            this.gameOver = false;
         }
     }
 }

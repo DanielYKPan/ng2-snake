@@ -3,6 +3,9 @@
  */
 
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { IGameState } from './service/game-state.reducer';
 
 @Component({
     selector: 'app-game',
@@ -11,9 +14,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GameComponent implements OnInit {
 
-    constructor() {
+    public gameState: Observable<IGameState>;
+
+    constructor(private store: Store<any>) {
     }
 
     public ngOnInit() {
+        this.gameState = this.store.select('gameState');
     }
 }
