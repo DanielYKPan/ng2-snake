@@ -95,6 +95,10 @@ export class GameService {
     private addFruit(): void {
         let valid = false;
         while (!valid) {
+
+            // Randomly set a fruit type
+            this.fruit.Type = Fruit.all[Math.floor(Math.random() * Fruit.all.length)];
+
             // Get a random position
             let aX = randRange(0, GameStatic.columns - 1);
             let aY = randRange(0, GameStatic.rows - 1);
@@ -253,8 +257,26 @@ export class GameService {
         context.fillStyle = '#f7e697';
         context.fillRect(tileX, tileY, GameStatic.tileWidth, GameStatic.tileHeight);
 
+        // Sprite column and row that gets calculated
         let tX = 0;
         let tY = 3;
+        if (this.fruit.Type === FruitType.Apple) {
+            tX = 0;
+            tY = 3;
+        } else if (this.fruit.Type === FruitType.Grapes) {
+            tX = 0;
+            tY = 2;
+        } else if (this.fruit.Type === FruitType.Orange) {
+            tX = 2;
+            tY = 3;
+        } else if (this.fruit.Type === FruitType.Watermelon) {
+            tX = 1;
+            tY = 3;
+        } else if (this.fruit.Type === FruitType.Pineapple) {
+            tX = 1;
+            tY = 2;
+        }
+
         let tileW = 64;
         let tileH = 64;
         context.drawImage(
