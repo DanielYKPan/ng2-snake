@@ -266,12 +266,13 @@ export class GameService {
 
     private drawGameOverBoard(): void {
         let context = this.board.getContext('2d');
-        context.fillStyle = "rgba(0, 0, 0, 0.5)";
+        context.fillStyle = 'rgba(0, 0, 0, 0.5)';
         context.fillRect(0, 0, this.board.width, this.board.height);
 
-        context.fillStyle = "#ffffff";
-        context.font = "24px Verdana";
-        this.drawCenterText("Press space bar to start!", 0, this.board.height / 2, this.board.width);
+        context.fillStyle = '#ffffff';
+        context.font = '24px Verdana';
+        this.drawCenterText('Press space bar to start!', 0,
+            this.board.height / 2, this.board.width);
     }
 
     private drawCenterText( text: string, x: number, y: number, width: number ): void {

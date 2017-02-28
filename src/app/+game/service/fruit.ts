@@ -12,6 +12,14 @@ export enum FruitType {
 
 export class Fruit {
 
+    public static all: FruitType[] = [
+        FruitType.Apple,
+        FruitType.Grapes,
+        FruitType.Orange,
+        FruitType.Watermelon,
+        FruitType.Pineapple,
+    ];
+
     /* Property x */
     private x: number;
 
