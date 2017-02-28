@@ -447,6 +447,7 @@ export class GameService {
 
             if (this.gameState.gameOver) {
                 this.gameOverTime = 0;
+                this.saveBestScores();
             }
         }
     }
@@ -465,6 +466,13 @@ export class GameService {
     private tryNewGame(): void {
         if (this.gameOverTime > this.gameOverDelay) {
             this.newGame();
+        }
+    }
+
+    private saveBestScores(): void {
+        let storageScores = +localStorage.getItem('snake-best') || 0;
+        if (this.gameState.best > storageScores) {
+            localStorage.setItem('snake-best', this.gameState.best.toString());
         }
     }
 }
