@@ -1,4 +1,6 @@
 @import '../../styles/utils/variables';
+@import '../../styles/utils/functions';
+@import '../../styles/utils/mixins';
 @import url("https://fonts.googleapis.com/css?family=Bungee|Bungee+Outline");
 
 :host {
@@ -6,14 +8,80 @@
   width: 100%;
   height: 100%;
   flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   font-family: "Bungee", cursive, sans-serif;
 }
 
 .game-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
-  max-width: 640px;
-  height: 480px;
+  height: 100%;
+  background-color: #66afe9;
+}
+
+.game-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 640px;
+  height: 20vh;
+
+  img {
+    width: auto;
+    height: 90%;
+  }
+}
+
+.game-inform {
+  width: 640px;
+}
+
+.game-score {
+  display: flex;
+  justify-content: space-around;
+
+  h1 {
+    @include type-setting(2);
+    margin: 0;
+  }
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.score-inform {
+  display: flex;
+  align-items: center;
+}
+
+.image {
+  width: 32px;
+  height: 32px;
+  background-image: resolve('img/snake-graphics.png');
+  background-size: 160px 128px;
+  background-position: -32px -64px;
+
+  &.Apple {
+    background-position: -0px -96px;
+  }
+
+  &.Grapes {
+    background-position: 0 -64px;
+  }
+
+  &.Pineapple {
+    background-position: -32px -64px;
+  }
+
+  &.Watermelon {
+    background-position: -32px -96px;
+  }
+
+  &.Orange {
+    background-position: -64px -96px;
+  }
 }
