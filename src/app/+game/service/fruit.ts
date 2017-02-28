@@ -3,7 +3,11 @@
  */
 
 export enum FruitType {
-    Apple = 10
+    Apple = 10,
+    Grapes = 20,
+    Orange = 30,
+    Watermelon = 40,
+    Pineapple = 50,
 }
 
 export class Fruit {
