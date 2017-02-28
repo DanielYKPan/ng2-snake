@@ -9,6 +9,7 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 
 export enum KeyCode {
+    Spacebar = 32,
     Left = 37,
     Up = 38,
     Right = 39,

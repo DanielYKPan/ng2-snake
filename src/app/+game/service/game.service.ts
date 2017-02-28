@@ -38,6 +38,8 @@ export class GameService {
     private fpsTime = 0;
     private frameCount = 0;
     private fps = 0;
+    private gameOverTime: number = 1; // How long we have been game over
+    private gameOverDelay: number = 0.5;
 
     constructor() {
 
@@ -49,6 +51,7 @@ export class GameService {
         this.board = board;
         this.snake = new Snake();
         this.fruit = new Fruit();
+        this.buildGridWithWalls();
 
         this.main(0);
     }
@@ -56,21 +59,22 @@ export class GameService {
     public newGame(): void {
         this.gameOver = false;
         this.snake.init(10, 10, KeyCode.Right, 10, 4);
-        this.buildGridWithWalls();
         this.drawGrid();
         this.fruit.Type = FruitType.Apple;
         this.addFruit();
     }
 
-    public arrowDown( direction: KeyCode ): void {
-        if (direction === KeyCode.Right && this.snake.Direction !== KeyCode.Left) {
+    public arrowDown( key: KeyCode ): void {
+        if (key === KeyCode.Right && this.snake.Direction !== KeyCode.Left) {
             this.snake.Direction = KeyCode.Right;
-        } else if (direction === KeyCode.Down && this.snake.Direction !== KeyCode.Up) {
+        } else if (key === KeyCode.Down && this.snake.Direction !== KeyCode.Up) {
             this.snake.Direction = KeyCode.Down;
-        } else if (direction === KeyCode.Left && this.snake.Direction !== KeyCode.Right) {
+        } else if (key === KeyCode.Left && this.snake.Direction !== KeyCode.Right) {
             this.snake.Direction = KeyCode.Left;
-        } else if (direction === KeyCode.Up && this.snake.Direction !== KeyCode.Down) {
+        } else if (key === KeyCode.Up && this.snake.Direction !== KeyCode.Down) {
             this.snake.Direction = KeyCode.Up;
+        } else if (key === KeyCode.Spacebar && this.gameOver) {
+            this.tryNewGame();
         }
     }
 
@@ -267,7 +271,7 @@ export class GameService {
 
         context.fillStyle = "#ffffff";
         context.font = "24px Verdana";
-        this.drawCenterText("Press any key to start!", 0, this.board.height / 2, this.board.width);
+        this.drawCenterText("Press space bar to start!", 0, this.board.height / 2, this.board.width);
     }
 
     private drawCenterText( text: string, x: number, y: number, width: number ): void {
@@ -329,6 +333,8 @@ export class GameService {
 
         if (!this.gameOver) {
             this.updateGame(dt);
+        } else {
+            this.gameOverTime += dt;
         }
     }
 
@@ -381,6 +387,10 @@ export class GameService {
                 // out of bounds
                 this.gameOver = true;
             }
+
+            if (this.gameOver) {
+                this.gameOverTime = 0;
+            }
         }
     }
 
@@ -392,6 +402,13 @@ export class GameService {
         // Game over
         if (this.gameOver) {
             this.drawGameOverBoard();
+        }
+    }
+
+    private tryNewGame(): void {
+        if (this.gameOverTime > this.gameOverDelay) {
+            this.newGame();
+            this.gameOver = false;
         }
     }
 }

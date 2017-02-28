@@ -68,7 +68,10 @@ export class Snake {
         this.y = y;
         this.direction = direction;
         this.speed = speed;
+        this.moveDelay = 0;
+        this.growSegments = 0;
 
+        this.segments = [];
         for (let i = 0; i < numSegments; i++) {
             this.segments.push({
                 x: this.x - i * this.directions[KeyCode[direction]][0],
