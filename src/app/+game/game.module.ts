@@ -11,7 +11,7 @@ import { routes } from './game.routes';
 import { GameComponent } from './game.component';
 import { GameHeaderComponent } from './game-header';
 import { tilesReducer, gameStateReducer, GameService, KeyboardService } from './service';
-import { GameCanvasComponent } from './game-canvas';
+import { GameBoardComponent } from './game-board';
 import { GameInformComponent } from './game-inform';
 
 @NgModule({
@@ -19,7 +19,7 @@ import { GameInformComponent } from './game-inform';
         // Components / Directives/ Pipes
         GameComponent,
         GameHeaderComponent,
-        GameCanvasComponent,
+        GameBoardComponent,
         GameInformComponent,
     ],
     imports: [

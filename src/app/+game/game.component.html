@@ -1,6 +1,6 @@
 <div class="game-wrapper">
     <app-game-header></app-game-header>
-    <app-game-canvas></app-game-canvas>
+    <app-game-board></app-game-board>
     <app-game-inform [scores]="(gameState | async)?.scores"
                      [best]="(gameState | async)?.best"
                      [fruits]="fruits"></app-game-inform>
