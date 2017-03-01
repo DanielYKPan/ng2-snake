@@ -8,11 +8,8 @@ import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-game-board',
-    template: `
-<canvas #board class="game-wrapper" width="640" height="480" 
-(window:keydown)="clickKeyBoard($event.keyCode)">
-</canvas>
-`,
+    templateUrl: 'game-board.component.html',
+    //styleUrls: ['./game-board.component.scss'],
 })
 export class GameBoardComponent implements OnInit, OnDestroy {
 
