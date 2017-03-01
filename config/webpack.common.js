@@ -27,7 +27,7 @@ const ngcWebpack = require('ngc-webpack');
 const HMR = helpers.hasProcessFlag('hot');
 const AOT = helpers.hasNpmFlag('aot');
 const METADATA = {
-    title: 'Game Memory By YK Daniel',
+    title: 'Game Snake By YK Daniel',
     baseUrl: '/',
     isDevServer: helpers.isWebpackDevServer()
 };
