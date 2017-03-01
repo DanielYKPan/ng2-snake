@@ -27,7 +27,7 @@ export const gameStateReducer: ActionReducer<any> =
                 let scores = state.scores + action.payload.scores;
                 let best = state.best;
                 return Object.assign({}, state, {
-                    scores: scores,
+                    scores,
                     best: scores > best ? scores : best,
                 });
 

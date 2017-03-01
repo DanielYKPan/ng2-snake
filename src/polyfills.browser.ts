@@ -29,6 +29,9 @@ import 'core-js/es6/reflect';
 import 'core-js/es7/reflect';
 import 'zone.js/dist/zone';
 
+// Web animations for Safari and Firefox #10420
+import 'web-animations-js';
+
 if ('production' === ENV) {
   // Production
 

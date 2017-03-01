@@ -271,9 +271,6 @@ export class GameService {
         let tileX = this.fruit.X * GameStatic.tileWidth;
         let tileY = this.fruit.Y * GameStatic.tileHeight;
 
-        //context.fillStyle = '#f7e697';
-        // context.fillRect(tileX, tileY, GameStatic.tileWidth, GameStatic.tileHeight);
-
         // Sprite column and row that gets calculated
         let tX = 0;
         let tY = 3;
