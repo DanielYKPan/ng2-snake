@@ -41,7 +41,7 @@ Run the app
  - [github/DanielYKPan](https://github.com/DanielYKPan)
  - [twitter/DanielYKPan](https://twitter.com/DanielYKPan)
  
- ## Resources
+## Resources
  
  **[Snake Image](http://rembound.com/articles/creating-a-snake-game-tutorial-with-html5)**
 
