@@ -3,10 +3,6 @@
 @import '../../styles/utils/mixins';
 @import url("https://fonts.googleapis.com/css?family=Bungee|Bungee+Outline");
 
-:host {
-  font-family: "Bungee", cursive, sans-serif;
-}
-
 .game-wrapper {
   width: 640px;
   height: 100%;
