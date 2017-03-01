@@ -13,6 +13,7 @@ import { GameHeaderComponent } from './game-header';
 import { tilesReducer, gameStateReducer, GameService, KeyboardService } from './service';
 import { GameBoardComponent } from './game-board';
 import { GameInformComponent } from './game-inform';
+import { GameAboutComponent } from './game-about';
 
 @NgModule({
     declarations: [
@@ -21,6 +22,7 @@ import { GameInformComponent } from './game-inform';
         GameHeaderComponent,
         GameBoardComponent,
         GameInformComponent,
+        GameAboutComponent,
     ],
     imports: [
         CommonModule,
