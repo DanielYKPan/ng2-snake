@@ -1,7 +1,5 @@
 <div class="game-wrapper">
-    <div class="game-logo">
-        <img src="assets/img/snake-logo.png">
-    </div>
+    <app-game-header></app-game-header>
     <app-game-canvas></app-game-canvas>
     <app-game-inform [scores]="(gameState | async)?.scores"
                      [best]="(gameState | async)?.best"
