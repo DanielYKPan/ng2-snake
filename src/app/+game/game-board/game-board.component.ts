@@ -37,7 +37,6 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
         let board = this.board.nativeElement;
         this.gameService.init(board);
-        this.gameService.newGame();
 
         this.arrowsSub = this.keyboardService.arrows.subscribe(
             ( data: KeyCode ) => this.gameService.arrowDown(data)

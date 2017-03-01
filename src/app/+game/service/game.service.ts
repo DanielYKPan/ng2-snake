@@ -74,7 +74,6 @@ export class GameService {
             }
         });
         this.snake.init(10, 10, KeyCode.Right, 10, 4);
-        this.drawGrid();
         this.fruit.Type = FruitType.Apple;
         this.addFruit();
     }

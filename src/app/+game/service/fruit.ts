@@ -46,8 +46,8 @@ export class Fruit {
     }
 
     constructor() {
-        this.x = null;
-        this.y = null;
+        this.x = 1;
+        this.y = 1;
         this.type = null;
     }
 

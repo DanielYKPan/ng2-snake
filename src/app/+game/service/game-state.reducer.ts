@@ -12,7 +12,7 @@ export interface IGameState {
 }
 
 const defaultGameState = {
-    gameOver: false,
+    gameOver: true,
     scores: 0,
     best: +localStorage.getItem('snake-best') || 0,
 };
