@@ -1,7 +1,9 @@
 <div class="game-header">
     <img class="game-logo" src="assets/img/snake-logo.png">
     <div class="game-links">
-        <a class="link active">Game</a>
-        <a class="link">About</a>
+        <a class="link" [routerLink]=" ['./'] "
+           routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Game</a>
+        <a class="link" [routerLink]=" ['./about'] "
+           routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">About</a>
     </div>
 </div>
