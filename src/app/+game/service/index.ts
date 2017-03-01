@@ -2,7 +2,6 @@
  * index
  */
 
-export { tilesReducer } from './tiles.reducer';
 export { IGameState, gameStateReducer } from './game-state.reducer';
 export { GameService } from './game.service';
 export { KeyboardService, KeyCode } from './keyboard.service';

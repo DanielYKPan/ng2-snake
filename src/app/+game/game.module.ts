@@ -10,7 +10,7 @@ import { StoreModule } from '@ngrx/store';
 import { routes } from './game.routes';
 import { GameComponent } from './game.component';
 import { GameHeaderComponent } from './game-header';
-import { tilesReducer, gameStateReducer, GameService, KeyboardService } from './service';
+import { gameStateReducer, GameService, KeyboardService } from './service';
 import { GameBoardComponent } from './game-board';
 import { GameInformComponent } from './game-inform';
 import { GameAboutComponent, SocialBtnComponent } from './game-about';
@@ -30,7 +30,6 @@ import { GameAboutComponent, SocialBtnComponent } from './game-about';
         FormsModule,
         RouterModule.forChild(routes),
         StoreModule.provideStore({
-            tiles: tilesReducer,
             gameState: gameStateReducer,
         }),
     ],
